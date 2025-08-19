@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Travel Destination Recommender</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #89f7fe, #66a6ff);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 350px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input, select, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div class="container" id="loginBox">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+    <p id="loginMessage" style="color:red;"></p>
+  </div>
+
+  <!-- Travel Recommender -->
+  <div class="container hidden" id="travelBox">
+    <h2>Travel Destination Recommender</h2>
+    <label for="country">Choose a country:</label>
+    <select id="country" onchange="showDestinations()">
+      <option value="">--Select a Country--</option>
+      <option value="india">India</option>
+      <option value="france">France</option>
+      <option value="japan">Japan</option>
+    </select>
+    
+    <div id="popularDestinations"></div>
+    <button onclick="recommend()">Recommend Me</button>
+    <div class="result" id="recommendation"></div>
+  </div>
+
+  <script>
+    // Simple login (demo purpose only)
+    function login() {
+      let user = document.getElementById("username").value;
+      let pass = document.getElementById("password").value;
+      
+      if(user === "ishvari" && pass === "1234") {
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("travelBox").classList.remove("hidden");
+      } else {
+        document.getElementById("loginMessage").innerText = "Invalid username or password!";
+      }
+    }
+
+    // Popular destinations for each country
+    const destinations = {
+      india: ["Taj Mahal, Agra", "Jaipur, Rajasthan", "Goa Beaches", "Kerala Backwaters"],
+      france: ["Eiffel Tower, Paris", "Louvre Museum", "French Riviera", "Mont Saint-Michel"],
+      japan: ["Tokyo", "Kyoto Temples", "Mount Fuji", "Hiroshima Peace Park"]
+    };
+
+    // Show destinations when a country is selected
+    function showDestinations() {
+      let country = document.getElementById("country").value;
+      let output = document.getElementById("popularDestinations");
+      
+      if(country) {
+        output.innerHTML = "<h3>Popular Destinations:</h3><ul>" + 
+          destinations[country].map(place => "<li>" + place + "</li>").join("") + 
+          "</ul>";
+      } else {
+        output.innerHTML = "";
+      }
+    }
+
+    // Recommend random destination
+    function recommend() {
+      let country = document.getElementById("country").value;
+      let recommendation = document.getElementById("recommendation");
+
+      if(country) {
+        let places = destinations[country];
+        let randomPlace = places[Math.floor(Math.random() * places.length)];
+        recommendation.innerText = "✨ Recommended: " + randomPlace;
+      } else {
+        recommendation.innerText = "Please select a country first!";
+      }
+    }
+  </script>
+
+</body>
+</html>
